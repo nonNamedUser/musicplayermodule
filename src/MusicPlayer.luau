@@ -182,12 +182,12 @@ function music.new()
 		
 		if self.PausedOrStopped==false then
 			index=self.manageIndex()
+			self.Sound.TimePosition=0
 		else
 			self.PausedOrStopped=false
 			index=self.Sound.SoundId
 		end
 		
-		self.Sound.TimePosition=0
 		self.Sound.SoundId=index
 		
 		self.Sound:Play()
