@@ -172,6 +172,7 @@ function music.new()
 		self.PausedOrStopped=true
 		self.playing=false
 		self.Sound:Stop()
+		self.TimePos=self.Sound.TimePosition
 	end
 	function self:Play()
 		if self.Sound=="" then
@@ -188,15 +189,13 @@ function music.new()
 			self.Sound.SoundId=index
 		end
 		
-		self.Sound:Play()
-		
 		if self.PausedOrStopped then
 			self.PausedOrStopped=false
-			if self.TimePos~=0 then
-				self.Sound.TimePosition=self.TimePos
-				self.TimePos=0
-			end
+			self.Sound.TimePosition=self.TimePos
+			self.TimePos=0
 		end
+		
+		self.Sound:Play()
 		
 		if self.EndedAddedToSound then return end
 		
