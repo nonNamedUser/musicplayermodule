@@ -199,7 +199,6 @@ function music.new()
 		self.Sound.Ended:Connect(function()
 			if self.playing==true then
 				if self.Sound=="" then return end
-				print(self.index)
 				self.playing=true
 
 				local index=self.manageIndex()
