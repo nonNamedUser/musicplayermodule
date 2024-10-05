@@ -82,6 +82,7 @@ function music.new()
 	self.index=1
 	self.indexType="playlist"
 	self.Sound=""
+	self.EndedAddedToSound=false
 	
 	self.playing=false
 	
@@ -143,6 +144,7 @@ function music.new()
 	end
 	
 	function self:setSound(sound:Sound)
+		if self.Sound~="" then return end
 		self.Sound=sound
 	end
 	
@@ -180,8 +182,13 @@ function music.new()
 		
 		self.Sound:Play()
 		
+		if self.EndedAddedToSound then return end
+		
+		self.EndedAddedToSound=true
+		
 		self.Sound.Ended:Connect(function()
 			if self.playing==true then
+				if self.Sound=="" then return end
 				print(self.index)
 				self.playing=true
 
