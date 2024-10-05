@@ -83,6 +83,7 @@ function music.new()
 	self.indexType="playlist"
 	self.Sound=""
 	self.EndedAddedToSound=false
+	self.PausedOrStopped=false
 	
 	self.playing=false
 	
@@ -157,6 +158,7 @@ function music.new()
 			print('Please set a sound!')
 			return
 		end
+		self.PausedOrStopped=true
 		self.playing=false
 		self.Sound:Pause()
 	end
@@ -165,6 +167,7 @@ function music.new()
 			print('Please set a sound!')
 			return
 		end
+		self.PausedOrStopped=true
 		self.playing=false
 		self.Sound:Stop()
 	end
@@ -175,7 +178,14 @@ function music.new()
 		end
 		self.playing=true
 		
-		local index=self.manageIndex()
+		local index
+		
+		if self.PausedOrStopped==false then
+			index=self.manageIndex()
+		else
+			self.PausedOrStopped=false
+			index=self.Sound.SoundId
+		end
 		
 		self.Sound.TimePosition=0
 		self.Sound.SoundId=index
