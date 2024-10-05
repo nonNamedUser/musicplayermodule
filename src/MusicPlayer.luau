@@ -84,6 +84,7 @@ function music.new()
 	self.Sound=""
 	self.EndedAddedToSound=false
 	self.PausedOrStopped=false
+	self.TimePos=0
 	
 	self.playing=false
 	
@@ -160,7 +161,8 @@ function music.new()
 		end
 		self.PausedOrStopped=true
 		self.playing=false
-		self.Sound:Pause()
+		self.TimePos=self.Sound.TimePosition
+		self.Sound:Stop()
 	end
 	function self:Stop()
 		if self.Sound=="" then
@@ -180,16 +182,21 @@ function music.new()
 		
 		local index
 		
-		if self.PausedOrStopped==false then
+		if not self.PausedOrStopped then
 			index=self.manageIndex()
 			self.Sound.TimePosition=0
 			self.Sound.SoundId=index
-		else
-			self.PausedOrStopped=false
-			--index=self.Sound.SoundId
 		end
 		
 		self.Sound:Play()
+		
+		if self.PausedOrStopped then
+			self.PausedOrStopped=false
+			if self.TimePos~=0 then
+				self.Sound.TimePosition=self.TimePos
+				self.TimePos=0
+			end
+		end
 		
 		if self.EndedAddedToSound then return end
 		
